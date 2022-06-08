@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/159a4561-4883-4161-b68e-299724724cbc/resourceGroups/pmlepoc1_rg_rpt_prototypes/providers/Microsoft.Web/sites/pretcrawl",
+    "appService.deploySubpath": "."
+}
