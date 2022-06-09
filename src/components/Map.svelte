@@ -12,8 +12,8 @@
     const map_style = "Light_3857";
     const attribution =
     "Contains OS data &copy Crown copyright and database rights 2022";
-    const datahubEndpoint = `https://api.os.uk/maps/raster/v1/zxy/${map_style}/{z}/{x}/{y}.png?key=${apiKey}`;
-
+    // const datahubEndpoint = `https://api.os.uk/maps/raster/v1/zxy/${map_style}/{z}/{x}/{y}.png?key=${apiKey}`;
+    const datahubEndpoint = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png'
   
     function createMap(container) {
       let m = L.map(container).setView([51.505, -0.09], 13);
