@@ -44,4 +44,4 @@
      crossorigin=""/>
   </svelte:head>
   
-  <div use:mapAction class="w-screen h-screen"/>
+  <div use:mapAction class="w-full h-screen"/>
