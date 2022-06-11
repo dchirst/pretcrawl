@@ -4,6 +4,7 @@
 	// @ts-ignore
 	let apiKey: string = OS_API_KEY;
 
+	import Logo from "./components/Logo.svelte";
 	import Map from "./components/Map.svelte";
 	let startLocation = "";
     let endLocation = "";
@@ -16,6 +17,7 @@
 </script>
 
 <main>
+	<Logo/>
 	<Map apiKey={apiKey}/>
     <p>The API key is: <b>{apiKey}</b></p>
 </main>
