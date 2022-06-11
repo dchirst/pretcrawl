@@ -9,6 +9,8 @@
     const modelURL = "newscene.gltf"
     let model = null;
     let spin=0
+    let logoWidth;
+    let logoHeight;
 
     SC.onFrame(() => {
         spin += 0.01;
@@ -19,9 +21,9 @@
         return loader.loadAsync(modelURL)
         }
 
-        onMount(() => {
+    onMount(() => {
         loadGLTF().then(_model => model = _model.scene.children[0].geometry);
-        })
+    })
 
     var mat001 = new THREE.MeshPhysicalMaterial();
     mat001.color = new THREE.Color(0x910826);
@@ -29,18 +31,24 @@
     mat001.roughness = 0.0;
     mat001.envMapIntensity = 1.0;
 
+    var offset = 0.7
 </script>
 
-<div class="w-full h-screen m-auto align-middle flex">
-    <h1 class="z-50 m-auto">PRET CRAWL</h1>
-    <!-- <div class="flex h-screen">
-        <div class="m-auto">
-          <h3>title</h3>
-          <button>button</button>
+<div bind:clientWidth={logoWidth} bind:clientHeight={logoHeight} class="w-96 h-32 m-auto align-middle" id="logo">
+    <div class="h-full w-full flex" id="title">
+        <div class="z-50 flex h-full w-full">
+            <div class="h-full w-full">
+                <h1 class="font-title  my-8 text-6xl ml-4 align-text-middle ">PRET</h1>
+            </div>
+            <div class="h-full w-full">
+                <h1 class="font-title text-6xl text-right mr-4 my-8">CRAWL</h1>
+            </div>
+
         </div>
-      </div> -->
-    <div id="star" class="z-40">
-        <SC.Canvas antialias background={new THREE.Color("papayawhip")}>
+    </div>
+
+    <div id="star" class="z-40 w-96 h-32">
+        <SC.Canvas class="w-96 h-32" antialias background={new THREE.Color("papayawhip")} >
             <SC.AmbientLight intensity={0.9}/>
             <SC.DirectionalLight intensity={0.6} position={[-2, 3, 2]}/>
             {#if model}
@@ -51,8 +59,8 @@
                 rotation={[0, 0, spin]}
             />
             {/if}
-            <SC.PerspectiveCamera position={[0, 10, 0]} />
-            <SC.OrbitControls enableZoom={false} />
+            <SC.PerspectiveCamera position={[offset, 5, 0]} target={[offset, 0, 0]}/>
+            <SC.OrbitControls enableZoom={false} enablePan={false}/>
         
         </SC.Canvas>
     </div>

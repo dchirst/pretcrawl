@@ -16,10 +16,15 @@
     })
 </script>
 
+<svelte:head>
+	<link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,200;12..72,400&display=swap" rel="stylesheet">
+
+</svelte:head>
+
 <main>
 	<Logo/>
-	<Map apiKey={apiKey}/>
-    <p>The API key is: <b>{apiKey}</b></p>
+	<!-- <Map apiKey={apiKey}/>
+    <p>The API key is: <b>{apiKey}</b></p> -->
 </main>
 
 <style global lang="postcss">
