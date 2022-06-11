@@ -1,3 +1,7 @@
 {
-  "recommendations": ["svelte.svelte-vscode"]
+  "recommendations": [
+    "ms-azuretools.vscode-azurefunctions",
+    "ms-python.python",
+    "svelte.svelte-vscode"
+  ]
 }
