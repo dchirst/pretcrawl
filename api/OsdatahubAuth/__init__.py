@@ -1,39 +1,39 @@
 import logging
-import requests
 from os import environ
-import json
+from urllib import request, parse
+import base64
 
 import azure.functions as func
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
-    try:
-        logging.info('Python HTTP trigger function processed a request.')
-        data = req.get_json()
-        logging.info(data)
-        key = data["key"]
-        secret = environ.get("OS_API_SECRET")
-        # logging.info(secret)
-        auth = (key, secret)
+    logging.info('Python HTTP trigger function processed a request.')
+    data = req.get_json()
+    logging.info(data)
+    key = data["key"]
+    secret = environ.get("OS_API_SECRET")
+    # logging.info(secret)
+    auth = (key, secret)
+    url = 'https://api.os.uk/oauth2/token/v1'
 
-        response = requests.post(
-            url='https://api.os.uk/oauth2/token/v1',
-            auth=auth,
-            data={
-                "grant_type": "client_credentials"
-            }
-        )
-        logging.info(response.content)
+    data = parse.urlencode({
+            "grant_type": "client_credentials"
+        }).encode()
 
-        if response.status_code == 200:
-            return func.HttpResponse(
-                json.dumps(response.content.decode("utf-8")),
-                status_code=200
-            )
-        else:
-            raise Exception("Something has gone wrong")
-    except Exception as e:
+    auth = f"Basic " + base64.b64encode(f"{key}:{secret}".encode("ascii")).decode()
+    logging.info(auth)
+
+    req =  request.Request(url, data=data) # this will make the method "POST"
+    req.add_header("Authorization", auth)
+    req.add_header("Content-Type", "application/x-www-form-urlencoded")
+    resp = request.urlopen(req)
+
+    content =  resp.read().decode("utf-8")
+    logging.info(content)
+    if resp.getcode() == 200:
         return func.HttpResponse(
-            e,
-            status_code=response.status_code
+            content,
+            status_code=200
         )
+    else:
+        raise Exception("Something has gone wrong")
