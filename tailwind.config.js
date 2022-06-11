@@ -4,6 +4,13 @@ module.exports = {
     purgeLayersByDefault: true,
     removeDeprecatedGapUtilities: true,
   },
+  theme: {
+    fontFamily: {
+      title: ["Truculenta"],
+      content: ["Calibri"]
+    },
+    extend: {}
+  },
   plugins: [
 
   ],
@@ -15,3 +22,15 @@ module.exports = {
     enabled: production // disable purge in dev
   },
 };
+
+// module.exports = {
+//   content: ['./src/**/*.{html,js,svelte,ts}'],
+//   theme: {
+//     fontFamily: {
+//       title: ["Truculenta"],
+//       content: ["Calibri"]
+//     },
+//     extend: {}
+//   },
+//   plugins: []
+// };

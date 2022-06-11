@@ -1,13 +1,29 @@
 <script lang="ts">
+	import { onMount } from "svelte";
+
 	// @ts-ignore
-	const apiKey: string = OS_API_KEY;
+	let apiKey: string = OS_API_KEY;
 
 	import Map from "./components/Map.svelte";
+	import Sidebar from "./components/Sidebar.svelte";
 	let startLocation = "";
     let endLocation = "";
+
+	onMount(async () => {
+		console.log("I am here")
+        fetch(`/api/OsdatahubAuth`).then(response => response.text()).then(text => apiKey = text)
+        
+    })
 </script>
 
-<main>
+
+<svelte:head>
+	<link href="https://fonts.googleapis.com/css2?family=Truculenta:opsz,wght@12..72,200;12..72,400&display=swap" rel="stylesheet">
+
+</svelte:head>
+
+<main class="flex">
+	<Sidebar/>
 	<Map apiKey={apiKey}/>
 </main>
 
