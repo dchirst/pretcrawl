@@ -1,12 +1,15 @@
-import logging
-from os import environ
-from urllib import request, parse
-import base64
 
-import azure.functions as func
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
+    return func.HttpResponse(
+            "PRET CRAWL 2",
+            status_code=200
+    )
+
+    from urllib import requests, parse
+    import logging
+
     logging.info('Python HTTP trigger function processed a request.')
     data = req.get_json()
     logging.info(data)
