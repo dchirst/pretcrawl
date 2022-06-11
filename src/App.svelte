@@ -9,11 +9,6 @@
 	let startLocation = "";
     let endLocation = "";
 
-	onMount(async () => {
-		console.log("I am here")
-        fetch(`/api/OsdatahubAuth`).then(response => response.text()).then(text => apiKey = text)
-        
-    })
 </script>
 
 
