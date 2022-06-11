@@ -3,11 +3,13 @@
 	const apiKey: string = OS_API_KEY;
 
 	import Map from "./components/Map.svelte";
+	import Sidebar from "./components/Sidebar.svelte";
 	let startLocation = "";
     let endLocation = "";
 </script>
 
-<main>
+<main class="flex">
+	<Sidebar/>
 	<Map apiKey={apiKey}/>
 </main>
 
