@@ -7,3 +7,4 @@
 /api/pyvenv.cfg
 api/OsdatahubAuth/__pycache__/*
 /api/local.settings.json
+scratch.py
