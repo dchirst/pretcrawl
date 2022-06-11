@@ -2,3 +2,9 @@
 /public/build/
 .env
 .DS_Store
+/api/Lib
+/api/Scripts
+/api/pyvenv.cfg
+api/OsdatahubAuth/__pycache__/*
+/api/local.settings.json
+scratch.py
