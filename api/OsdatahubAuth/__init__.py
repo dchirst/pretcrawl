@@ -19,7 +19,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     data = req.get_json()
     logging.info(data)
     key = data["key"]
-    secret = "eKQHqprAAse4BiCE" # WILL DELETE AFTER TEST # environ.get("OS_API_SECRET")
+    secret = environ.get("OS_API_SECRET")
     logging.info(secret)
     auth = (key, secret)
     url = 'https://api.os.uk/oauth2/token/v1'
