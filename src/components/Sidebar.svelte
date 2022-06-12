@@ -8,7 +8,7 @@ import { onMount } from "svelte";
         await fetch("/api/OsdatahubAuth", {
         method: "POST",
         body: JSON.stringify({
-        key: "xoUemUjfnXOdzwCBK6XpHsqJXXHe3T79"
+        key: process.env.OS_API_KEY
     })
     }).then(response => response.json()).then(response => value = response)
     })
