@@ -2,18 +2,24 @@
 	import { onMount } from "svelte";
 
 	// @ts-ignore
-	let apiKey: string = OS_API_KEY;
+	let apiKey: string;
 
 	import Map from "./components/Map.svelte";
 	import Sidebar from "./components/Sidebar.svelte";
 	let startLocation = "";
     let endLocation = "";
 
-	onMount(async () => {
-		console.log("I am here")
-        fetch(`/api/OsdatahubAuth`).then(response => response.text()).then(text => apiKey = text)
-        
+    onMount(async () => {
+        await fetch("/api/OsdatahubAuth", {
+        method: "POST",
+        body: JSON.stringify({
+        key: "mgz99Gos1K50W1SpyQEOUqFujOxKpqyz"
     })
+    }).then(response => response.json()).then(response => apiKey = response.access_token)
+    })
+
+    $: apiKey = apiKey
+
 </script>
 
 
