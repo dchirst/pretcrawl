@@ -4,11 +4,11 @@ import { onMount } from "svelte";
     import Logo from "./Logo.svelte";
 
     let value;
-    onMount(() => {
-        fetch("/api/OsdatahubAuth", {
+    onMount(async () => {
+        await fetch("/api/OsdatahubAuth", {
         method: "POST",
         body: JSON.stringify({
-        key: "mgz99Gos1K50W1SpyQEOUqFujOxKpqyz"
+        key: "xoUemUjfnXOdzwCBK6XpHsqJXXHe3T79"
     })
     }).then(response => response.json()).then(response => value = response)
     })
