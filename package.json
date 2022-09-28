@@ -24,6 +24,7 @@
     "vite": "^3.1.0"
   },
   "dependencies": {
+    "daisyui": "^2.31.0",
     "maplibre-gl": "^2.4.0"
   }
 }
