@@ -30,7 +30,7 @@
 	onMount(() => {
 
 		getToken().then(() => {
-			var serviceUrl = "https://api.os.uk/maps/vector/v1/vts&srs=3857";
+			var serviceUrl = "https://api.os.uk/maps/vector/v1/vts";
 			map = new Map({
 				container: 'map',
 				style: serviceUrl + '/resources/styles?',
@@ -38,6 +38,9 @@
 				zoom: 9,
 				maxZoom: 15,
 				transformRequest: url => {
+                    if (!url.endsWith(".geojson")) {
+                        url += '&srs=3857';
+                    }
 					return {
 						url: url,
 						headers: {'Authorization': 'Bearer ' + apiKey}
