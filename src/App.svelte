@@ -1,45 +1,69 @@
-<script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
-</script>
-
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank"> 
-      <img src="/vite.svg" class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank"> 
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
-</main>
-
-<style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
-</style>
+<script>
+	import { onMount, onDestroy } from 'svelte'
+	import { Map } from 'maplibre-gl';
+	import 'maplibre-gl/dist/maplibre-gl.css';
+  
+	let map;
+	let apiKey;
+	function getToken() {
+		return fetch("/api/OsdatahubAuth")
+			.then((response) => response.json())
+					.then(result => {
+			  if(result.access_token) {
+				  // Store this token
+				  apiKey = result.access_token;
+  
+				  // Get a new token 30 seconds before this one expires
+				  const timeoutMS = (result.expires_in - 30) * 1000;
+				  setTimeout(getToken, timeoutMS);
+			  } else {
+				  // We failed to get the token
+				  return Promise.reject();
+			  }
+		  })
+		  .catch(error => {
+			  return Promise.reject();
+		  });
+	}
+  
+  
+	onMount(() => {
+		getToken().then(() => {
+			var serviceUrl = "https://api.os.uk/maps/vector/v1/vts";
+			map = new Map({
+				container: 'map',
+				style: serviceUrl + '/resources/styles?',
+				center: [-1.608411, 54.968004],
+				zoom: 9,
+				maxZoom: 15,
+				transformRequest: url => {
+					url += '&srs=3857';
+					return {
+						url: url,
+						headers: {'Authorization': 'Bearer ' + apiKey}
+					}
+				}
+			});
+  
+		})
+  
+  
+	});
+  
+	onDestroy(() => {
+	  map.remove();
+	});
+  </script>
+  
+  <div id="map" style="position: fixed" />
+  
+  <style>
+	#map {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	  cursor: pointer;
+	}
+  </style>
