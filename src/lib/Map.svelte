@@ -116,10 +116,7 @@
             })
 
 
-  
-		})
-
-        map.on('click', function(e) {
+            map.on('click', function(e) {
             // The event object (e) contains information like the
             // coordinates of the point on the map that was clicked.
             if (!startPoint) {
@@ -139,8 +136,8 @@
 
             });
 
+		})
 
-  
   
 	});
   
