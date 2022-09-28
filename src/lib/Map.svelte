@@ -38,7 +38,7 @@
 				zoom: 9,
 				maxZoom: 15,
 				transformRequest: url => {
-                    if (!url.endsWith(".geojson")) {
+                    if (!(url.endsWith(".geojson") || url.endsWith(".png"))) {
                         url += '&srs=3857';
                     }
 					return {
