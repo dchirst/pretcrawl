@@ -34,7 +34,7 @@
 			map = new Map({
 				container: 'map',
 				style: serviceUrl + '/resources/styles?',
-				center: [-1.608411, 54.968004],
+				center: [-0.110281, 51.519787],
 				zoom: 9,
 				maxZoom: 15,
 				transformRequest: url => {
@@ -45,34 +45,36 @@
 					}
 				}
 			});
+
+            map.once("load", () => {
+
+            map.loadImage('star.png', function (error, image) {
+                if (error) throw error;
+                map.addImage('Airport_icon', image);
+            });
+            map.addSource("prets", {
+                type: "geojson",
+                data: "prets.geojson" //"./GeoObs.json",
+                /*cluster: true,
+                clusterMaxZoom: 15, // Max zoom to cluster points on
+                clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)*/
+            });
+
+            map.addLayer({
+                id: "Prets",
+                type: "symbol",
+                source: "prets",
+                layout: {
+                        'icon-image': 'Airport_icon',
+                        'icon-size': 0.1,
+                    }
+            })
+
+            })
   
 		})
 
-        map.once("load", () => {
 
-        map.loadImage('star.png', function (error, image) {
-            if (error) throw error;
-            map.addImage('Airport_icon', image);
-        });
-        map.addSource("prets", {
-            type: "geojson",
-            data: "prets.geojson" //"./GeoObs.json",
-            /*cluster: true,
-            clusterMaxZoom: 15, // Max zoom to cluster points on
-            clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)*/
-        });
-
-        map.addLayer({
-            id: "Prets",
-            type: "symbol",
-            source: "prets",
-            layout: {
-                    'icon-image': 'Airport_icon',
-                    'icon-size': 0.1,
-                }
-        })
-
-        })
   
   
 	});
