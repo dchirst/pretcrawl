@@ -12,7 +12,7 @@ import json
 
 transformer = Transformer.from_crs(4326, 3857)
 transformer_back = Transformer.from_crs(3857, 4326)
-with open("/Users/dhirst/PycharmProjects/pretadata/prets.geojson") as f:
+with open("prets.geojson") as f:
     prets = geojson.load(f)
 
 
