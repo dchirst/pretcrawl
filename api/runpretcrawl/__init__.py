@@ -6,13 +6,15 @@ from pyproj import Transformer
 import geojson
 from shapely.geometry import MultiPoint, LineString
 import json
+import os
 
 
+script_dir = os.path.dirname(__file__)
 
 
 transformer = Transformer.from_crs(4326, 3857)
 transformer_back = Transformer.from_crs(3857, 4326)
-with open("prets.geojson") as f:
+with open(os.path.join(script_dir, "prets.geojson")) as f:
     prets = geojson.load(f)
 
 
