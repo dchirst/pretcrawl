@@ -12,7 +12,7 @@
 
 		return fetch("/api/osdatahubauth")
 			.then((response) => response.json())
-					.then(result => {
+			.then(result => {
 			  if(result.access_token) {
 				  // Store this token
 				  apiKey = result.access_token;
@@ -60,7 +60,7 @@
             });
             map.addSource("prets", {
                 type: "geojson",
-                data: "prets.geojson" //"./GeoObs.json",
+                data: "https://raw.githubusercontent.com/Jonty/pretadata/master/prets.geojson" //"./GeoObs.json",
                 /*cluster: true,
                 clusterMaxZoom: 15, // Max zoom to cluster points on
                 clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)*/
