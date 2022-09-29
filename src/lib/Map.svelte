@@ -60,7 +60,7 @@
             });
             map.addSource("prets", {
                 type: "geojson",
-                data: "https://raw.githubusercontent.com/Jonty/pretadata/master/prets.geojson" //"./GeoObs.json",
+                data: "prets.geojson" //"./GeoObs.json",
                 /*cluster: true,
                 clusterMaxZoom: 15, // Max zoom to cluster points on
                 clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)*/
