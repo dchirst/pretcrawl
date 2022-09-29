@@ -6,5 +6,5 @@ azure-functions
 requests-oauthlib
 shapely
 pyproj
-geopandas
+geojson
 numpy
