@@ -4,3 +4,7 @@
 
 azure-functions
 requests-oauthlib
+shapely
+pyproj
+geopandas
+numpy

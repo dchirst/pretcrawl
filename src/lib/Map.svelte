@@ -1,12 +1,13 @@
 <script>
 	import { onMount, onDestroy } from 'svelte'
-	import { Map, Marker } from 'maplibre-gl';
+	import { Map, Marker, SourceFeatureState } from 'maplibre-gl';
+    import {startPoint, endPoint} from "../stores.js";
 	import 'maplibre-gl/dist/maplibre-gl.css';
   
 	let map;
 	let apiKey;
-    let startPoint;
-    let endPoint;
+    let startMarker;
+    let endMarker;
 	function getToken() {
 
 		return fetch("/api/osdatahubauth")
@@ -31,44 +32,6 @@
   
   
 	onMount(() => {
-
-
-
-        // var map = new Map({
-        //         container: 'map',
-        //         style:
-        //         'https://api.maptiler.com/maps/uk-openzoomstack-light/style.json?key=CD269nAWmrLn0eRqqc4G',
-        //         center: [-0.110281, 51.519787],
-        //         zoom: 8
-        //     });
-
-        //     map.once("load", () => {
-
-        //     map.loadImage('star.png', function (error, image) {
-        //         if (error) throw error;
-        //         map.addImage('star', image);
-        //     });
-        //     map.addSource("prets", {
-        //         type: "geojson",
-        //         data: "prets.geojson" //"./GeoObs.json",
-        //         /*cluster: true,
-        //         clusterMaxZoom: 15, // Max zoom to cluster points on
-        //         clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)*/
-        //     });
-
-        //     map.addLayer({
-        //         id: "Prets",
-        //         type: "symbol",
-        //         source: "prets",
-        //         layout: {
-        //                 'icon-image': 'star',
-        //                 'icon-size': 0.1,
-        //             }
-        //     })
-
-        //     })
-
-
 
 		getToken().then(() => {
 			var serviceUrl = "https://api.os.uk/maps/vector/v1/vts";
@@ -120,18 +83,21 @@
             // The event object (e) contains information like the
             // coordinates of the point on the map that was clicked.
             if (!startPoint) {
-                startPoint = new Marker({
+                startMarker = new Marker({
                     draggable: true
                 })
                     .setLngLat(e.lngLat)
                 .addTo(map);
+
+                $startPoint = e.lngLat
+
             } else if (!endPoint) {
-                endPoint = new Marker({
+                endMarker = new Marker({
                     draggable: true
                 })
                     .setLngLat(e.lngLat)
                 .addTo(map);
-                endPoint = e.lngLat.toArray()
+                $endPoint = e.lngLat
             }
 
             });
