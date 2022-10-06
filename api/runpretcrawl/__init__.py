@@ -28,6 +28,7 @@ prets = MultiPoint(prets_list)
 
 
 def run_pret_crawl(start_point, end_point, distance_thresh=2500):
+    # convert start and end points to epsg 3857 where units are in meters
     start_point_4326 = start_point
     end_point_4326 = end_point
     start_point = np.array(transformer.transform(*start_point))
@@ -35,18 +36,33 @@ def run_pret_crawl(start_point, end_point, distance_thresh=2500):
 
     logging.info(start_point)
     logging.info(end_point)
+
+    # create a 500 meter buffer around route to filter out any prets that are nowhere near the route
     route = LineString((start_point, end_point))
     buffered_route = route.buffer(500)
-
     filtered_prets = np.array(
         [np.array((geom.xy[0][0], geom.xy[1][0])) for geom in filter(lambda x: buffered_route.contains(x), prets)])
 
     start_distances = distance(start_point, filtered_prets)
-    first_pret = filtered_prets[np.argmin(np.abs(start_distances - distance_thresh))]
+    end_distances = distance(end_point, filtered_prets)
+
+    closest_distance_to_first_pret = start_distances.min()
+    if closest_distance_to_first_pret < 300:
+        first_pret = filtered_prets[np.argmin(start_distances)]
+    else:
+        first_pret = filtered_prets[np.argmin(np.abs(start_distances - distance_thresh))]
 
     current_pret = first_pret
 
     pret_crawl = [start_point, current_pret]
+
+    distance_to_start = distance(current_pret, [start_point])[0]
+    distance_to_end = distance(current_pret, [end_point])[0]
+
+    candidate_pret_indices = np.where((start_distances > distance_to_start) & (end_distances < distance_to_end))[0]
+    filtered_prets = np.take(filtered_prets, candidate_pret_indices, axis=0)
+    start_distances = np.take(start_distances, candidate_pret_indices)
+    end_distances = np.take(end_distances, candidate_pret_indices)
 
     while (distance(current_pret, [end_point])[0] >= distance_thresh):
         distance_array = distance(current_pret, filtered_prets)
@@ -56,10 +72,13 @@ def run_pret_crawl(start_point, end_point, distance_thresh=2500):
         next_pret = filtered_prets[np.argmin(np.abs(distance_array - distance_thresh))]
         pret_crawl.append(next_pret)
         current_pret = next_pret
+        distance_to_start = distance(current_pret, [start_point])[0]
+        distance_to_end = distance(current_pret, [end_point])[0]
 
-        relevant_indices = np.where(start_distances > distance(current_pret, [start_point])[0])[0]
-        filtered_prets = np.take(filtered_prets, relevant_indices, axis=0)
-        start_distances = np.take(start_distances, relevant_indices)
+        candidate_pret_indices = np.where((start_distances > distance_to_start) & (end_distances < distance_to_end))[0]
+        filtered_prets = np.take(filtered_prets, candidate_pret_indices, axis=0)
+        start_distances = np.take(start_distances, candidate_pret_indices)
+        end_distances = np.take(end_distances, candidate_pret_indices)
         print(f"distance to end point: {distance(current_pret, [end_point])[0]}")
 
     pret_crawl.append(end_point)
