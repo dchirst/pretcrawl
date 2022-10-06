@@ -1,4 +1,6 @@
-# Pret Crawl
+<div align="center">
+    <img src="https://raw.githubusercontent.com/dchirst/pretcrawl/master/media/pretcrawl-logo.jpg" width="40%" height="40%" alt="Pret Crawl Logo">
+</div>
 
 The Pret Crawl is a web site for those who frickin' love Pret A Manger.
 
@@ -7,6 +9,10 @@ The site allows users to create their own bespoke *Pret Crawl*, where they trave
 Anyone with the Pret Coffee Subscription can get up to 5 drinks a day from any branch, with a 30 minute gap between each one. Therefore, to maximise coffee drinkage on a long walk, they must visit Prets positioned ~30 minutes apart. 
 
 This app makes it easy - simply pick your start and end points, and a patent-pending pret-finding algorithm will select the optimal branches for you to visit.
+
+<div align="center">
+    <img src="https://raw.githubusercontent.com/dchirst/pretcrawl/master/media/app-screenshot.png" width="40%" height="40%" alt="Pret Crawl Screenshot">
+</div>
 
 [Visit the website here to try for yourself](https://mango-sky-05b77640f.2.azurestaticapps.net/)
 
