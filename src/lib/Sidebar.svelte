@@ -38,7 +38,7 @@
         .then((response) => response.json())
         .then((response) => {
             $route = response;
-            pretNames = $route.properties.selectedPrets.features.map(p => p.properties.name).join("\n");
+            pretNames = $route.properties.selectedPrets.features.map(p => p.properties.name);
             googleUrl = generateGoogleMapsLink($route);
             visibility = true;
         })
