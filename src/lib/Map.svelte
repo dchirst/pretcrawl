@@ -1,7 +1,7 @@
 <script>
 	import { onMount, onDestroy } from 'svelte'
 	import { Map, Marker, SourceFeatureState, Popup, LngLatBounds } from 'maplibre-gl';
-    import {startPoint, endPoint, route} from "../stores.js";
+    import {startPoint, endPoint, route, loading} from "../stores.js";
 	import 'maplibre-gl/dist/maplibre-gl.css';
   
 	let map;
@@ -50,11 +50,11 @@
 				}
 			});
             map.once("load", () => {
-
-            map.loadImage('star.png', function (error, image) {
-                if (error) throw error;
-                map.addImage('star', image);
-            });
+              $loading = false
+              map.loadImage('star.png', function (error, image) {
+                  if (error) throw error;
+                  map.addImage('star', image);
+              });
             map.addSource("prets", {
                 type: "geojson",
                 data: "prets.geojson" //"./GeoObs.json",
