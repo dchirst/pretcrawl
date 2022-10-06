@@ -32,3 +32,8 @@ swa start --api-location=api
 This app is under active development as a fun hobby, so will likely have some bugs. Feel free to contribute by submitting a PR if you feel like helping.
 
 Thanks to [Jonty's Pretadata](https://github.com/Jonty/pretadata) for providing the starting data for this silly little app.
+
+
+## Disclaimer
+
+This app has no affiliation whatsoever with Pret A Manger.
