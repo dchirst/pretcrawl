@@ -4,7 +4,7 @@
 
     const googleDirectionsURL = "https://www.google.com/maps/dir/?api=1&"
     function generateGoogleMapsLink(pretCrawlRoute) {
-        pretCrawlRoute = pretCrawlRoute.geometry.coordinates
+        pretCrawlRoute = [...pretCrawlRoute.geometry.coordinates]
         const params = {
             travelmode: "walking",
             origin: pretCrawlRoute[0].reverse(),
@@ -53,13 +53,23 @@
         <hr class="mx-auto my-8 w-1/2 h-1 bg-gray-200 rounded border-0 dark:bg-gray-700 sm:invisible sm:absolute">
         <Logo/>
         <button class="bg-primary text-white m-5" on:click={runPretCrawl}>Run</button>
+        <p class="text-red-500">{text}</p>
+
         <p class="text-left"><strong>An app for those who want to always have a Pret in their hand.</strong> <br><br>
             Pick your start and end point, and the Pret Crawl will tell you the optimal Pret A Manger's to visit along your route. <br>
             This app is designed for folks who have the Pret Subscription, where you are allowed up to 5 free drinks a day with a 30 minute gap between each one.</p>
-        <p class="text-red-500">{text}</p>
-        <p>{pretNames}</p>
         {#if visibility}
+            <hr class="mx-auto my-3 bg-gray-600 w-1/2">
+            <p> You are visiting <strong>{pretNames.length}</strong> Prets along your journey. They are:</p>
+            <div class="border-black border-primary rounded-md m-1 border-2">
+                <ul>
+                    {#each pretNames as pret}
+                        <li>{pret}</li>
+                    {/each}
+                </ul>
+            </div>
             <a href="{googleUrl}" target="_blank">Google Maps Directions</a>
+            <p>Happy Pretting!</p>
         {/if}
 
         <span class="align-bottom inline-block mt-5">
