@@ -11,8 +11,10 @@ Anyone with the Pret Coffee Subscription can get up to 5 drinks a day from any b
 This app makes it easy - simply pick your start and end points, and a patent-pending pret-finding algorithm will select the optimal branches for you to visit.
 
 <div align="center">
-    <img src="https://raw.githubusercontent.com/dchirst/pretcrawl/master/media/app-screenshot.png" width="40%" height="40%" alt="Pret Crawl Screenshot">
+    <img src="https://raw.githubusercontent.com/dchirst/pretcrawl/master/media/app-screenshot.png" width="80%" height="80%" alt="Pret Crawl Screenshot">
 </div>
+<br>
+
 
 [Visit the website here to try for yourself](https://mango-sky-05b77640f.2.azurestaticapps.net/)
 
