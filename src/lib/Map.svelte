@@ -38,8 +38,7 @@
 				container: 'map',
 				style: serviceUrl + '/resources/styles?',
 				center: [-0.110281, 51.519787],
-				zoom: 9,
-				maxZoom: 15,
+				zoom: 14,
 				transformRequest: url => {
                     if (!(url.endsWith(".geojson") || url.endsWith(".png"))) {
                         url += '&srs=3857';

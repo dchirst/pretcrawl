@@ -16,7 +16,7 @@
     let googleLink;
     let text = ""
     let pretNames = ""
-    let url = ""
+
     let googleUrl = ""
     let visibility = false
     function runPretCrawl() {
@@ -33,7 +33,6 @@
             endPointLng: $endPoint.lng,
             endPointLat: $endPoint.lat
         }
-        url = "/api/runpretcrawl?" + new URLSearchParams(params)
         fetch("/api/runpretcrawl?" + new URLSearchParams(params))
         .then((response) => response.json())
         .then((response) => {
@@ -55,7 +54,6 @@
 
         <button class="bg-primary text-white" on:click={runPretCrawl}>Run</button>
         <p class="text-red-500">{text}</p>
-        <p>{url}</p>
         <p>{pretNames}</p>
         {#if visibility}
             <a href="{googleUrl}" target="_blank">Google Maps Directions</a>
