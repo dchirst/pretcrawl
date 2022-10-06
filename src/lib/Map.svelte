@@ -1,7 +1,7 @@
 <script>
 	import { onMount, onDestroy } from 'svelte'
-	import { Map, Marker, SourceFeatureState } from 'maplibre-gl';
-    import {startPoint, endPoint} from "../stores.js";
+	import { Map, Marker, SourceFeatureState, Popup, LngLatBounds } from 'maplibre-gl';
+    import {startPoint, endPoint, route} from "../stores.js";
 	import 'maplibre-gl/dist/maplibre-gl.css';
   
 	let map;
@@ -9,7 +9,6 @@
     let startMarker;
     let endMarker;
 	function getToken() {
-
 		return fetch("/api/osdatahubauth")
 			.then((response) => response.json())
 			.then(result => {
@@ -51,7 +50,6 @@
 					}
 				}
 			});
-
             map.once("load", () => {
 
             map.loadImage('star.png', function (error, image) {
@@ -72,35 +70,111 @@
                 source: "prets",
                 layout: {
                         'icon-image': 'star',
-                        'icon-size': 0.1,
+                        'icon-size': 0.2,
                     }
-            })
-
-            })
-
+            });
 
             map.on('click', function(e) {
             // The event object (e) contains information like the
             // coordinates of the point on the map that was clicked.
-            if (!startPoint) {
+              console.log($startPoint)
+              console.log($endPoint)
+              if (!$startPoint) {
                 startMarker = new Marker({
                     draggable: true
                 })
                     .setLngLat(e.lngLat)
                 .addTo(map);
+                startMarker.on("dragend", onDragEndStartPoint)
 
                 $startPoint = e.lngLat
 
-            } else if (!endPoint) {
+            } else if (!$endPoint) {
                 endMarker = new Marker({
                     draggable: true
                 })
                     .setLngLat(e.lngLat)
                 .addTo(map);
+                endMarker.on('dragend', onDragEndEndPoint)
                 $endPoint = e.lngLat
             }
 
+
             });
+
+            function onDragEndStartPoint() {
+              $startPoint = startMarker.getLngLat();
+            }
+            function onDragEndEndPoint() {
+              $endPoint = endMarker.getLngLat();
+            }
+
+            map.on('click', 'selectedPrets', function (e) {
+              const name = e.features[0].properties.name;
+              const coordinates = e.features[0].geometry.coordinates.slice();
+              new Popup()
+                .setLngLat(coordinates)
+                .setHTML(name)
+                .addTo(map);
+            })
+
+            })
+
+
+
+
+
+        route.subscribe(r => {
+          if (r) {
+            if (map.getSource("route")) {
+              map.getSource("route").setData(r)
+              map.getSource("selectedPrets").setData(r.properties.selectedPrets)
+            } else {
+              map.addSource("route", {
+                type: "geojson",
+                data: r
+              })
+              map.addLayer({
+                id: 'route',
+                source: 'route',
+                type: 'line',
+                paint: {
+                  "line-color": "#bb5c5c",
+                  "line-width": 10
+                }
+              }, "Prets");
+              map.addSource("selectedPrets", {
+                type: "geojson",
+                data: r.properties.selectedPrets
+              })
+              map.addLayer({
+                  id: "selectedPrets",
+                  type: "symbol",
+                  source: "selectedPrets",
+                  layout: {
+                          'icon-image': 'star',
+                          'icon-size': 0.4,
+                      }
+              });
+              }
+
+            var coordinates = r.geometry.coordinates;
+            var bounds = coordinates.reduce(function (bounds, coord) {
+                return bounds.extend(coord);
+            }, new LngLatBounds(coordinates[0], coordinates[0]));
+
+            map.fitBounds(bounds, {
+                padding: 50,
+            });
+
+
+          }
+
+        })
+
+
+
+
 
 		})
 

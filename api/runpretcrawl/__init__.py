@@ -1,22 +1,19 @@
-import logging
-import azure.functions as func
-
-import numpy as np
-from pyproj import Transformer
-import geojson
-from shapely.geometry import MultiPoint, LineString
 import json
+import logging
 import os
 
+import azure.functions as func
+import geojson
+import numpy as np
+from pyproj import Transformer
+from shapely.geometry import MultiPoint, LineString
 
 script_dir = os.path.dirname(__file__)
-
 
 transformer = Transformer.from_crs(4326, 3857)
 transformer_back = Transformer.from_crs(3857, 4326)
 with open(os.path.join(script_dir, "prets.geojson")) as f:
     prets = geojson.load(f)
-
 
 prets_4326 = prets
 prets_4326_list = [tuple(g.geometry.coordinates) for g in prets.features]
@@ -41,7 +38,8 @@ def run_pret_crawl(start_point, end_point, distance_thresh=2500):
     route = LineString((start_point, end_point))
     buffered_route = route.buffer(500)
 
-    filtered_prets = np.array([np.array((geom.xy[0][0], geom.xy[1][0])) for geom in filter(lambda x: buffered_route.contains(x),prets)])
+    filtered_prets = np.array(
+        [np.array((geom.xy[0][0], geom.xy[1][0])) for geom in filter(lambda x: buffered_route.contains(x), prets)])
 
     start_distances = distance(start_point, filtered_prets)
     first_pret = filtered_prets[np.argmin(np.abs(start_distances - distance_thresh))]
@@ -50,8 +48,11 @@ def run_pret_crawl(start_point, end_point, distance_thresh=2500):
 
     pret_crawl = [start_point, current_pret]
 
-    while distance(current_pret, [end_point])[0] >= distance_thresh:
+    while (distance(current_pret, [end_point])[0] >= distance_thresh):
         distance_array = distance(current_pret, filtered_prets)
+        logging.info(distance_array.size)
+        if not distance_array.size:
+            break
         next_pret = filtered_prets[np.argmin(np.abs(distance_array - distance_thresh))]
         pret_crawl.append(next_pret)
         current_pret = next_pret
@@ -64,14 +65,28 @@ def run_pret_crawl(start_point, end_point, distance_thresh=2500):
     pret_crawl.append(end_point)
 
     pc = [start_point_4326]
+    selected_prets = []
     for pret in pret_crawl[1:-1]:
         logging.info(np.where(pret == np.array(prets_list)))
-        pc.append(prets_4326_list[np.where(pret == np.array(prets_list))[0][0]])
+        idx = np.where(pret == np.array(prets_list))[0][0]
+        pc.append(prets_4326_list[idx])
+        selected_prets.append(prets_4326.features[idx])
     pc.append(end_point_4326)
 
+    return {
+        "type": "Feature",
+        "properties": {"name": "route",
+                       "selectedPrets": {
+                            "type": "FeatureCollection",
+                            "features": selected_prets
+                       }
+                       },
+        "geometry": {
+            "type": "LineString",
+            "coordinates": pc
 
-
-    return pc
+        }
+    }
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
@@ -90,7 +105,5 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         pret_crawl = run_pret_crawl(start_point, end_point)
 
     logging.info(pret_crawl)
-
-
 
     return func.HttpResponse(json.dumps(pret_crawl))
