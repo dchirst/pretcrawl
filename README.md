@@ -16,7 +16,7 @@ This app makes it easy - simply pick your start and end points, and a patent-pen
 <br>
 
 
-[Visit the website here to try for yourself](https://mango-sky-05b77640f.2.azurestaticapps.net/)
+[Visit the website here to try for yourself](www.pretcrawl.com)
 
 ## Installation
 
