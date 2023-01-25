@@ -4,7 +4,7 @@
 
 azure-functions
 requests-oauthlib
-shapely
+shapely~=1
 pyproj
 geojson
 numpy
