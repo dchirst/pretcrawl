@@ -49,7 +49,7 @@
 
 <div class="w-screen h-screen flex">
     <div class="w-full  h-auto absolute top-2/3 bg-white z-50 rounded-xl shadow-md p-10 pt-0 mx-auto
-    sm:w-96 sm:m-0 sm:top-10 sm:left-10 sm:pt-10">
+    sm:w-96 sm:m-0 sm:top-10 sm:left-10 sm:pt-10 dark:bg-neutral">
         <hr class="mx-auto my-8 w-1/2 h-1 bg-gray-200 rounded border-0 dark:bg-gray-700 sm:invisible sm:absolute">
         <Logo/>
         <button class="bg-primary text-white m-5" on:click={runPretCrawl}>Run</button>
