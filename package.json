@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "daisyui": "^2.31.0",
+    "mapbox-gl": "^2.12.0",
     "maplibre-gl": "^2.4.0",
     "svelte-seo": "^1.4.1"
   }
