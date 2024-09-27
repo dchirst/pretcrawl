@@ -16,7 +16,7 @@ This app makes it easy - simply pick your start and end points, and a patent-pen
 <br>
 
 
-[Visit the website here to try for yourself](www.pretcrawl.com)
+[Visit the website here to try for yourself](pretcrawl.danhirst.me)
 
 ## Installation
 

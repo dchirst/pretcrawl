@@ -14,7 +14,7 @@
   openGraph={{
     title: 'Make your own Pret Crawl',
     description: 'Forever walk through London with a Pret in your hand',
-    url: 'www.pretcrawl.com',
+    url: 'pretcrawl.danhirst.me',
     type: 'website',
     images: [
       {
